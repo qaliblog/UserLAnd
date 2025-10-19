@@ -3,7 +3,7 @@ package tech.ula
 import android.app.AlertDialog
 import android.app.DownloadManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -32,7 +32,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_main.* // ktlint-disable no-wildcard-imports
+import tech.ula.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,6 +90,8 @@ class MainActivity : AppCompatActivity(), SessionListFragment.SessionSelection, 
         ContributionPrompter(this, findViewById(R.id.layout_user_prompt_insert))
     }
 
+    private lateinit var binding: ActivityMainBinding
+
     private val downloadBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
@@ -138,7 +140,7 @@ class MainActivity : AppCompatActivity(), SessionListFragment.SessionSelection, 
 
         val appsStartupFsm = AppsStartupFsm(ulaDatabase, filesystemManager, ulaFiles)
         val sessionStartupFsm = SessionStartupFsm(ulaDatabase, assetRepository, filesystemManager, assetDownloader, storageCalculator)
-        ViewModelProviders.of(this, MainActivityViewModelFactory(appsStartupFsm, sessionStartupFsm))
+        ViewModelProvider(this, MainActivityViewModelFactory(appsStartupFsm, sessionStartupFsm))
                 .get(MainActivityViewModel::class.java)
     }
 
@@ -152,14 +154,15 @@ class MainActivity : AppCompatActivity(), SessionListFragment.SessionSelection, 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
         notificationManager.createServiceNotificationChannel() // Android O requirement
 
         setNavStartDestination()
         setProgressDialogNavListeners()
 
-        setupWithNavController(bottom_nav_view, navController)
+        setupWithNavController(binding.bottomNavView, navController)
 
         val promptViewHolder = findViewById<ViewGroup>(R.id.layout_user_prompt_insert)
         if (userFeedbackPrompter.viewShouldBeShown()) {
@@ -568,11 +571,11 @@ class MainActivity : AppCompatActivity(), SessionListFragment.SessionSelection, 
         if (!progressBarIsVisible) {
             val inAnimation = AlphaAnimation(0f, 1f)
             inAnimation.duration = 200
-            layout_progress.animation = inAnimation
+            binding.layoutProgress.animation = inAnimation
 
-            layout_progress.visibility = View.VISIBLE
-            layout_progress.isFocusable = true
-            layout_progress.isClickable = true
+            binding.layoutProgress.visibility = View.VISIBLE
+            binding.layoutProgress.isFocusable = true
+            binding.layoutProgress.isClickable = true
             progressBarIsVisible = true
         }
     }
@@ -580,17 +583,17 @@ class MainActivity : AppCompatActivity(), SessionListFragment.SessionSelection, 
     private fun updateProgressBar(step: String, details: String) {
         displayProgressBar()
 
-        text_session_list_progress_step.text = step
-        text_session_list_progress_details.text = details
+        binding.textSessionListProgressStep.text = step
+        binding.textSessionListProgressDetails.text = details
     }
 
     private fun killProgressBar() {
         val outAnimation = AlphaAnimation(1f, 0f)
         outAnimation.duration = 200
-        layout_progress.animation = outAnimation
-        layout_progress.visibility = View.GONE
-        layout_progress.isFocusable = false
-        layout_progress.isClickable = false
+        binding.layoutProgress.animation = outAnimation
+        binding.layoutProgress.visibility = View.GONE
+        binding.layoutProgress.isFocusable = false
+        binding.layoutProgress.isClickable = false
         progressBarIsVisible = false
     }
 

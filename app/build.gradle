@@ -16,6 +16,10 @@ apply plugin: 'de.undercouch.download'
 android {
     namespace 'tech.ula'
     compileSdkVersion 33
+    
+    buildFeatures {
+        viewBinding true
+    }
 
     defaultConfig {
         // Version code is generated as time since June 1, 2019. These allows for constantly

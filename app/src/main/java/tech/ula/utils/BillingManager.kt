@@ -92,23 +92,21 @@ class BillingManager(
     }
 
     fun querySubPurchases() {
-        if (isSubscriptionPurchaseSupported()) {
-            val purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.SUBS)
-            if (purchasesResult.responseCode == BillingResponseCode.OK) {
-                onEntitledSubPurchases(Collections.unmodifiableList(purchasesResult.purchasesList))
-            } else {
-                log("Error trying to query purchases: $purchasesResult")
-            }
-        }
+        // TODO: Update to new Billing API
+        // if (isSubscriptionPurchaseSupported()) {
+        //     val purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.SUBS)
+        //     if (purchasesResult.responseCode == BillingResponseCode.OK) {
+        //         onEntitledSubPurchases(Collections.unmodifiableList(purchasesResult.purchasesList))
+        //     }
+        // }
     }
 
     fun queryInAppPurchases() {
-        val purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-        if (purchasesResult.responseCode == BillingResponseCode.OK) {
-            onEntitledInAppPurchases(Collections.unmodifiableList(purchasesResult.purchasesList))
-        } else {
-            log("Error trying to query purchases: $purchasesResult")
-        }
+        // TODO: Update to new Billing API
+        // val purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
+        // if (purchasesResult.responseCode == BillingResponseCode.OK) {
+        //     onEntitledInAppPurchases(Collections.unmodifiableList(purchasesResult.purchasesList))
+        // }
     }
 
     fun startPurchaseFlow(productId: String) {

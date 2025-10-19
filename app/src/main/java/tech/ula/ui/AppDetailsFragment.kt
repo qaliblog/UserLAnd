@@ -10,9 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import kotlinx.android.synthetic.main.frag_app_details.* // ktlint-disable no-wildcard-imports
+import tech.ula.databinding.FragAppDetailsBinding
 import tech.ula.R
 import tech.ula.model.repositories.UlaDatabase
 import tech.ula.utils.* // ktlint-disable no-wildcard-imports
@@ -24,6 +24,7 @@ import tech.ula.viewmodel.AppDetailsViewmodelFactory
 class AppDetailsFragment : Fragment() {
 
     private lateinit var activityContext: Activity
+    private lateinit var binding: FragAppDetailsBinding
 
     private val args: AppDetailsFragmentArgs by navArgs()
     private val app by lazy { args.app!! }
@@ -33,12 +34,13 @@ class AppDetailsFragment : Fragment() {
         val appDetails = AppDetails(activityContext.filesDir.path, activityContext.resources)
         val buildVersion = Build.VERSION.SDK_INT
         val factory = AppDetailsViewmodelFactory(sessionDao, appDetails, buildVersion, activityContext.getSharedPreferences("apps", Context.MODE_PRIVATE))
-        ViewModelProviders.of(this, factory)
+        ViewModelProvider(this, factory)
                 .get(AppDetailsViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.frag_app_details, container, false)
+        binding = FragAppDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -2,11 +2,9 @@ package tech.ula.utils
 
 import android.content.Context
 import android.util.Log
-import io.sentry.Sentry
-import io.sentry.android.AndroidSentryClientFactory
-import io.sentry.event.BreadcrumbBuilder
-import io.sentry.event.Event
-import io.sentry.event.EventBuilder
+// import io.sentry.Sentry
+// import io.sentry.Breadcrumb
+// import io.sentry.SentryEvent
 import tech.ula.viewmodel.IllegalState
 
 sealed class BreadcrumbType {
@@ -59,7 +57,7 @@ interface Logger {
 
 class SentryLogger : Logger {
     override fun initialize(context: Context?) {
-        Sentry.init(AndroidSentryClientFactory(context!!))
+        // Sentry.init(AndroidSentryClientFactory(context!!))
     }
 
     override fun addBreadcrumb(breadcrumb: UlaBreadcrumb) {
@@ -69,7 +67,7 @@ class SentryLogger : Logger {
                 .setCategory(key)
                 .setMessage(value)
                 .build()
-        Sentry.getContext().recordBreadcrumb(sentryBreadcrumb)
+        // Sentry.getContext().recordBreadcrumb(sentryBreadcrumb)
         Log.i("Breadcrumb", "$key $value")
     }
 
@@ -83,7 +81,7 @@ class SentryLogger : Logger {
                         "lineNumber" to stackTrace.lineNumber.toString()
                 ))
                 .build()
-        Sentry.getContext().recordBreadcrumb(breadcrumb)
+        // Sentry.getContext().recordBreadcrumb(breadcrumb)
     }
 
     override fun sendIllegalStateLog(state: IllegalState) {
@@ -91,7 +89,7 @@ class SentryLogger : Logger {
         val event = EventBuilder()
                 .withMessage(message)
                 .withLevel(Event.Level.ERROR)
-        Sentry.capture(event)
+        // Sentry.capture(event)
         Log.e("ILLEGAL_STATE", message)
     }
 
@@ -99,7 +97,7 @@ class SentryLogger : Logger {
         val event = EventBuilder()
                 .withMessage(message)
                 .withLevel(Event.Level.ERROR)
-        Sentry.capture(event)
+        // Sentry.capture(event)
         Log.e("EVENT", message)
     }
 }

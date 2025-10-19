@@ -69,7 +69,7 @@ jobs:
         keytool -genkey -v -keystore keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias mykey -storepass android -keypass android -dname "CN=UserLAnd, OU=Dev, O=UserLAnd, L=City, S=State, C=US"
 
     - name: Build Release APK
-      run: ./gradlew assembleRelease
+      run: ./gradlew assembleRelease --warning-mode all
       env:
         ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
         ANDROID_KEY_ALIAS: mykey

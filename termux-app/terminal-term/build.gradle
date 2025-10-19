@@ -9,8 +9,6 @@ android {
     }
 
     dependencies {
-        implementation "androidx.annotation:annotation:1.0.2"
-        implementation "androidx.legacy:legacy-support-core-ui:1.0.0"
         implementation project(":terminal-view")
     }
 
@@ -32,5 +30,7 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+    implementation "androidx.annotation:annotation:1.4.0"
+    implementation "androidx.legacy:legacy-support-core-ui:1.0.0"
+    testImplementation 'junit:junit:4.13.2'
 }

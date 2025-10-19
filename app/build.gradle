@@ -116,9 +116,6 @@ jacoco {
     toolVersion = "$jacoco_version"
 }
 
-androidExtensions {
-    experimental true
-}
 
 configurations {
     ktlint

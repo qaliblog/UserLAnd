@@ -32,7 +32,8 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleInstance"
             android:resizeableActivity="true"
-            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" >
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
+            android:exported="true" >
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
